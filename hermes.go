@@ -2,11 +2,12 @@ package hermes
 
 import (
 	"bytes"
+	"html/template"
+
 	"github.com/Masterminds/sprig"
 	"github.com/imdario/mergo"
 	"github.com/jaytaylor/html2text"
-	"gopkg.in/russross/blackfriday.v2"
-	"html/template"
+	"github.com/russross/blackfriday/v2"
 )
 
 // Hermes is an instance of the hermes email generator
@@ -44,7 +45,7 @@ type Product struct {
 	Name        string
 	Link        string // e.g. https://matcornic.github.io
 	Logo        string // e.g. https://matcornic.github.io/img/logo.png
-	Copyright   string // Copyright © 2017 Hermes. All rights reserved.
+	Copyright   string // Copyright © 2019 Hermes. All rights reserved.
 	TroubleText string // TroubleText is the sentence at the end of the email for users having trouble with the button (default to `If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser.`)
 }
 
@@ -104,9 +105,10 @@ type Action struct {
 
 // Button defines an action to launch
 type Button struct {
-	Color string
-	Text  string
-	Link  string
+	Color     string
+	TextColor string
+	Text      string
+	Link      string
 }
 
 // Template is the struct given to Golang templating
@@ -140,7 +142,7 @@ func setDefaultHermesValues(h *Hermes) error {
 		TextDirection: defaultTextDirection,
 		Product: Product{
 			Name:        "Hermes",
-			Copyright:   "Copyright © 2017 Hermes. All rights reserved.",
+			Copyright:   "Copyright © 2019 Hermes. All rights reserved.",
 			TroubleText: "If you’re having trouble with the button '{ACTION}', copy and paste the URL below into your web browser.",
 		},
 	}

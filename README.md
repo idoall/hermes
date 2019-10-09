@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/matcornic/hermes)](https://goreportcard.com/report/github.com/matcornic/hermes)
 [![Go Coverage](https://codecov.io/github/matcornic/hermes/coverage.svg)](https://codecov.io/github/matcornic/hermes/)
 [![Godoc](https://godoc.org/github.com/matcornic/hermes?status.svg)](https://godoc.org/github.com/matcornic/hermes)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes?ref=badge_shield)
 
 Hermes is the Go port of the great [mailgen](https://github.com/eladnava/mailgen) engine for Node.js. Check their work, it's awesome!
 It's a package that generates clean, responsive HTML e-mails for sending transactional e-mails (welcome e-mails, reset password e-mails, receipt e-mails and so on), and associated plain text fallback.
@@ -17,8 +18,11 @@ It's a package that generates clean, responsive HTML e-mails for sending transac
 First install the package:
 
 ```
-go get -u github.com/matcornic/hermes
+go get -u github.com/matcornic/hermes/v2
 ```
+
+> Starting from release *v2.0.0*, Hermes uses [Go modules](https://github.com/golang/go/wiki/Modules). The latest version of Hermes requires Go 1.11 with gomodules enabled.
+> You can still use an Hermes release compatible with prior Go versions by using *v1.2.0* release
 
 Then, start using the package by importing and configuring it:
 
@@ -88,6 +92,7 @@ This code would output the following HTML template:
 And the following plain text:
 
 ```
+
 ------------
 Hi Jon Snow,
 ------------
@@ -113,7 +118,19 @@ Copyright © 2017 Hermes. All rights reserved.
 * [Password Reset](examples/reset.go)
 * [Maintenance](examples/maintenance.go)
 
-To run the examples, go to `examples` folder, then run `go run *.go`. HTML and Plaintext example should be created in given theme folders.
+To run the examples, go to `examples` folder, then run `go run -a *.go`. HTML and Plaintext example should be created in given theme folders.
+
+Optionaly you can set the following variables to send automatically the emails to one your mailbox. Nice for testing template in real email clients.
+
+* `HERMES_SEND_EMAILS=true`
+* `HERMES_SMTP_SERVER=<smtp_server>` : for Gmail it's `smtp.gmail.com`
+* `HERMES_SMTP_PORT=<smtp_port>` : for Gmail it's `465`
+* `HERMES_SENDER_EMAIL=<your_sender_email>`
+* `HERMES_SENDER_IDENTITY=<the sender name>`
+* `HERMES_SMTP_USER=<smtp user>` : usually the same than `HERMES_SENDER_EMAIL`
+* `HERMES_TO=<recipients emails>`: split by commas like `myadress@test.com,somethingelse@gmail.com`
+
+The program will ask for your SMTP password. If needed, you can set it with `HERMES_SMTP_PASSWORD` variable (but be careful where you put this information !)
 
 ## Plaintext E-mails
 
@@ -371,3 +388,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 Apache 2.0
 
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes?ref=badge_large)
