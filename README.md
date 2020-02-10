@@ -1,9 +1,9 @@
 # Hermes
 
 [![Build Status](https://travis-ci.org/matcornic/hermes.svg?branch=master)](https://travis-ci.org/matcornic/hermes)
-[![Go Report Card](https://goreportcard.com/badge/github.com/matcornic/hermes)](https://goreportcard.com/report/github.com/matcornic/hermes)
+[![Go Report Card](https://goreportcard.com/badge/github.com/idoall/hermes)](https://goreportcard.com/report/github.com/idoall/hermes)
 [![Go Coverage](https://codecov.io/github/matcornic/hermes/coverage.svg)](https://codecov.io/github/matcornic/hermes/)
-[![Godoc](https://godoc.org/github.com/matcornic/hermes?status.svg)](https://godoc.org/github.com/matcornic/hermes)
+[![Godoc](https://godoc.org/github.com/idoall/hermes?status.svg)](https://godoc.org/github.com/idoall/hermes)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fmatcornic%2Fhermes?ref=badge_shield)
 
 Hermes is the Go port of the great [mailgen](https://github.com/eladnava/mailgen) engine for Node.js. Check their work, it's awesome!
@@ -18,10 +18,10 @@ It's a package that generates clean, responsive HTML e-mails for sending transac
 First install the package:
 
 ```
-go get -u github.com/matcornic/hermes/v2
+go get -u github.com/idoall/hermes
 ```
 
-> Starting from release *v2.0.0*, Hermes uses [Go modules](https://github.com/golang/go/wiki/Modules). The latest version of Hermes requires Go 1.11 with gomodules enabled.
+> Starting from release *v2.0.0*, Hermes uses [Go modules](https://github.com/golang/go/wiki/Modules). The latest version of Hermes requires at least Go 1.11 with gomodules enabled.
 > You can still use an Hermes release compatible with prior Go versions by using *v1.2.0* release
 
 Then, start using the package by importing and configuring it:
@@ -113,7 +113,8 @@ Copyright © 2017 Hermes. All rights reserved.
 
 ## More Examples
 
-* [Welcome](examples/welcome.go)
+* [Welcome with button](examples/welcome.go)
+* [Welcome with invite code](examples/invite_code.go)
 * [Receipt](examples/receipt.go)
 * [Password Reset](examples/reset.go)
 * [Maintenance](examples/maintenance.go)
@@ -223,6 +224,16 @@ h := hermes.Hermes{
 }
 ```
 
+Since `v2.1.0`, Hermes is automatically inlining all CSS to improve compatibility with email clients, thanks to [Premailer](https://github.com/vanng822/go-premailer/premailer).
+You can disable this feature by setting `DisableCSSInlining` of `Hermes` struct to `true`.
+
+```go
+h := hermes.Hermes{
+    ...
+    DisableCSSInlining: true,
+}
+```
+
 ## Elements
 
 Hermes supports injecting custom elements such as dictionaries, tables and action buttons into e-mails.
@@ -242,6 +253,21 @@ email := hermes.Email{
                     Text:  "Confirm your account",
                     Link:  "https://hermes-example.com/confirm?token=d9729feb74992cc3482b350163a1a010",
                 },
+            },
+        },
+    },
+}
+```
+
+Alternatively, instead of having a button, an action can be an invite code as follows:
+
+```go
+email := hermes.Email{
+    Body: hermes.Body{
+        Actions: []hermes.Action{
+            {
+                Instructions: "To get started with Hermes, please use the invite code:",
+                InviteCode: "123456",
             },
         },
     },
